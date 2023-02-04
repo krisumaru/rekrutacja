@@ -17,11 +17,11 @@ GET https://localhost/products
 
 POST https://localhost/cart
 
-> {% client.global.set("cart_id", response.body.cart_id) %}
+> {% client.global.set("cart_id", response.body.cart_id); %}
 
 ### Add product to cart
 
-PUT https://localhost/cart/{{cart_id}}/c9c74236-7545-4c4c-a877-0561b67d0618
+PUT https://localhost/cart/{{cart_id}}/69a31d56-290c-46e9-841f-38f1b0af39cc
 
 ### Remove product from cart
 
