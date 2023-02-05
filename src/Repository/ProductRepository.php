@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Service\Catalog\Product;
@@ -13,7 +15,7 @@ class ProductRepository implements ProductProvider, ProductService
 {
     private EntityRepository $repository;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         $this->repository = $this->entityManager->getRepository(\App\Entity\Product::class);
     }
@@ -40,7 +42,7 @@ class ProductRepository implements ProductProvider, ProductService
 
     public function add(string $name, int $price): Product
     {
-        $product = new \App\Entity\Product(Uuid::uuid4(), $name, $price);
+        $product = new \App\Entity\Product(Uuid::uuid4()->toString(), $name, $price);
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
@@ -55,5 +57,16 @@ class ProductRepository implements ProductProvider, ProductService
             $this->entityManager->remove($product);
             $this->entityManager->flush();
         }
+    }
+
+    public function update(Product $product, ?string $name, ?int $price)
+    {
+        if (null !== $name) {
+            $product->setName($name);
+        }
+        if (null !== $price) {
+            $product->setPrice($price);
+        }
+        $this->entityManager->flush();
     }
 }

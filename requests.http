@@ -5,6 +5,13 @@ Content-Type: application/x-www-form-urlencoded
 
 name=Example product 0&price=1200
 
+### Update product to catalog
+
+PATCH https://localhost/products/ec0c615d-0571-4e4b-9582-59a7edaf8117
+Content-Type: application/x-www-form-urlencoded
+
+name=Example product 0 after update
+
 ### Remove product from catalog
 
 DELETE https://localhost/products/ec0c615d-0571-4e4b-9582-59a7edaf8117
