@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Service\Catalog\Product;
 use App\Service\Catalog\ProductProvider;
 use App\Service\Catalog\ProductService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\Uuid;
@@ -13,7 +16,7 @@ class ProductRepository implements ProductProvider, ProductService
 {
     private EntityRepository $repository;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         $this->repository = $this->entityManager->getRepository(\App\Entity\Product::class);
     }
@@ -23,6 +26,7 @@ class ProductRepository implements ProductProvider, ProductService
         return $this->repository->createQueryBuilder('p')
             ->setMaxResults($count)
             ->setFirstResult($page * $count)
+            ->orderBy('p.createdAt')
             ->getQuery()
             ->getResult()
         ;
@@ -40,7 +44,7 @@ class ProductRepository implements ProductProvider, ProductService
 
     public function add(string $name, int $price): Product
     {
-        $product = new \App\Entity\Product(Uuid::uuid4(), $name, $price);
+        $product = new \App\Entity\Product(Uuid::uuid4()->toString(), $name, $price, new DateTimeImmutable());
 
         $this->entityManager->persist($product);
         $this->entityManager->flush();
