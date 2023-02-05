@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Cart;
+declare(strict_types=1);
 
-use App\Service\Catalog\Product;
+namespace App\Service\Cart;
 
 interface CartService
 {

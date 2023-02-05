@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\ResponseBuilder;
 
 use App\Entity\Cart;
@@ -44,11 +46,13 @@ class CartBuilderTest extends TestCase
                     'id' => '16e0226c-0ed8-434a-9342-429aefeb98f0',
                     'name' => 'Product 1',
                     'price' => 1990,
+                    'quantity' => 1
                 ],
                 [
                     'id' => '5884ad4c-9ac2-40a5-ba11-1a96156c5889',
                     'name' => 'Product 2',
                     'price' => 3690,
+                    'quantity' => 1,
                 ],
             ]
         ], $this->builder->__invoke($cart));
