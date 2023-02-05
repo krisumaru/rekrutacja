@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -17,13 +20,17 @@ class Product implements \App\Service\Catalog\Product
     private string $name;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private string $priceAmount;
+    private int $priceAmount;
 
-    public function __construct(string $id, string $name, int $price)
+    #[ORM\Column]
+    private DateTimeImmutable $createdAt;
+
+    public function __construct(string $id, string $name, int $price, DateTimeImmutable $createdAt)
     {
         $this->id = Uuid::fromString($id);
         $this->name = $name;
         $this->priceAmount = $price;
+        $this->createdAt = $createdAt;
     }
 
     public function getId(): string
