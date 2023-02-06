@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ResponseBuilder;
 
 use App\Service\Cart\Cart;
@@ -13,11 +15,13 @@ class CartBuilder
             'products' => []
         ];
 
-        foreach ($cart->getProducts() as $product) {
+        foreach ($cart->getCartProducts() as $cartProduct) {
+            $product = $cartProduct->getProduct();
             $data['products'][] = [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
-                'price' => $product->getPrice()
+                'price' => $product->getPrice(),
+                'quantity' => $cartProduct->getQuantity(),
             ];
         }
 

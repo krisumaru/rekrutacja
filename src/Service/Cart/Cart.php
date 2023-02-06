@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Cart;
 
-use App\Service\Catalog\Product;
+use App\Entity\CartProduct;
 
 interface Cart
 {
     public function getId(): string;
     public function getTotalPrice(): int;
     public function isFull(): bool;
+
     /**
-     * @return Product[]
+     * @return CartProduct[]
      */
-    public function getProducts(): iterable;
+    public function getCartProducts(): iterable;
 }

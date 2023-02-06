@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Functional\Controller\Cart\ShowCartController;
 
 use App\Entity\Cart;
+use App\Entity\CartProduct;
 use App\Entity\Product;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
@@ -25,10 +28,23 @@ class ShowCartControllerFixture extends AbstractFixture
         $cart = new Cart('fab8f7c3-a641-43c1-92d3-ee871a55fa8a');
 
         foreach ($products as $product) {
-            $cart->addProduct($product);
+            $cartProduct = new CartProduct($cart, $product);
+            $cart->addCartProduct($cartProduct);
         }
 
         $manager->persist($cart);
+
+        $cart2 = new Cart('ca8a954a-ad03-4e48-bb9e-239dba3ae3df');
+
+        $product = new Product('ae1ff511-4e57-470b-947b-4957154e9aa4', 'Product 4', 7000);
+
+        $cartProduct = new CartProduct($cart2, $product);
+        $cartProduct->increaseQuantity();
+        $cart2->addCartProduct($cartProduct);
+
+        $manager->persist($product);
+
+        $manager->persist($cart2);
 
         $manager->flush();
     }
